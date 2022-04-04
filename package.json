@@ -1,0 +1,18 @@
+{
+  "name": "maze",
+  "version": "1.0.0",
+  "description": "Maze Game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "maze"
+  },
+  "author": "Jaideep",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
