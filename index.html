@@ -151,10 +151,10 @@
                 alt="XCode" />
         </div>
         <div class="jockey">
-            <button id="left">&larr;</button>
-            <button id="right">&rarr;</button>
-            <button id="up">&uarr;</button>
-            <button id="down">&darr;</button>
+            <button onclick="leftMove()" id="left">&larr;</button>
+            <button onclick="rightMove()" id="right">&rarr;</button>
+            <button onclick="upMove()" id="up">&uarr;</button>
+            <button onclick="downMove()" id="down">&darr;</button>
         </div>
         <div class="game_controls">
             <button onclick="solveMaze()">Solution</button>
@@ -177,8 +177,13 @@
 </body>
 <script>
 
-    let WINDIV = document.getElementById("win_container");
-    let WINDIVSETTER = document.getElementById("win_setter");
+    var WINDIV = document.getElementById("win_container");
+    var WINDIVSETTER = document.getElementById("win_setter");
+    var LEFT_MOVE = document.getElementById('left');
+    var RIGHT_MOVE = document.getElementById('right');
+    var UP_MOVE = document.getElementById('up');
+    var DOWN_MOVE = document.getElementById('down');
+    
     WINDIVSETTER.addEventListener('click', () => {
         let dispStyle = getComputedStyle(WINDIV).display;
         if (dispStyle === 'flex') {
@@ -206,8 +211,10 @@
     var CELLSIZE = Math.floor(WIDTH / row);
 
     if (TEST_H > TEST_W) {
+        row = 15;
         col = 2 * row;
         HEIGHT = 2 * WIDTH;
+        CELLSIZE = WIDTH / row;
     }
 
     // For live match
@@ -481,7 +488,6 @@
         return null;
     }
 
-
     function checkStuff() {
         let n = onlyOneMove(curr.i, curr.j);
         if (curr.i == row - 1 && curr.j == col - 1) {
@@ -500,7 +506,6 @@
             }
         }
     }
-
 
     function onlyOneMove(i, j) {
         var curr = maze[i][j];
@@ -522,6 +527,52 @@
             return possible[0];
         }
         return null;
+    }
+
+    function leftMove(){
+        if (curr.i - 1 >= 0 && !curr.walls[3] && !maze[curr.i - 1][curr.j].visited) {
+            let n = maze[curr.i - 1][curr.j];
+            if (n != null) {
+                stack.push(n);
+                curr.visited = true;
+                curr = n;
+            }
+            checkStuff();
+        }
+    }
+
+    function rightMove(){
+        if (curr.i + 1 < row && !curr.walls[1] && !maze[curr.i + 1][curr.j].visited) {
+            let n = maze[curr.i + 1][curr.j];
+            if (n != null) {
+                stack.push(n);
+                curr.visited = true;
+                curr = n;
+            }
+            checkStuff();
+        }
+    }
+    function upMove(){
+        if (curr.j - 1 >= 0 && !curr.walls[0] && !maze[curr.i][curr.j - 1].visited) {
+            let n = maze[curr.i][curr.j - 1];
+            if (n != null) {
+                stack.push(n);
+                curr.visited = true;
+                curr = n;
+            }
+            checkStuff();
+        }
+    }
+    function downMove(){
+        if (curr.j + 1 < col && !curr.walls[2] && !maze[curr.i][curr.j + 1].visited) {
+            let n = maze[curr.i][curr.j + 1];
+            if (n != null) {
+                stack.push(n);
+                curr.visited = true;
+                curr = n;
+            }
+            checkStuff();
+        }
     }
 
 </script>
