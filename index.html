@@ -162,7 +162,7 @@
             <h2>Maze Game</h2>
             <h1>💰 YOU WIN 💰</h1>
             <div class="setters">
-                <button>Restart</button>
+                <button id="game_reset">Restart</button>
                 <button id="win_setter">Close</button>
             </div>
         </div>
@@ -172,14 +172,21 @@
 
     var WINDIV = document.getElementById("win_container");
     var WINDIVSETTER = document.getElementById("win_setter");
+    var GAMERESET = document.getElementById("game_reset");
 
 
     WINDIVSETTER.addEventListener('click', () => {
         let dispStyle = getComputedStyle(WINDIV).display;
         if (dispStyle === 'flex') {
-            console.log(dispStyle);
             WINDIV.style.display = 'none';
-            console.log(WINDIV.style.display);
+        }
+    });
+
+    GAMERESET.addEventListener('click', () => {
+        let dispStyle = getComputedStyle(WINDIV).display;
+        if (dispStyle === 'flex') {
+            WINDIV.style.display = 'none';
+            createMaze();
         }
     });
 
