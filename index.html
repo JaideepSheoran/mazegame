@@ -251,17 +251,15 @@
     var s = [];
     var maze = [];
 
-    var row = 30;
-    var col = 15;
+    var row = 40;
     var WIDTH = document.getElementById('board').offsetWidth;
-    var HEIGHT = WIDTH / 2;
-    var CELLSIZE = Math.floor(WIDTH / row);
+    var CELLSIZE = WIDTH / row;
+    var col = Math.floor((TEST_H - 64)/CELLSIZE) - 1;
 
     if (TEST_H > TEST_W) {
         row = 15;
-        col = 2 * row;
-        HEIGHT = 2 * WIDTH;
         CELLSIZE = WIDTH / row;
+        col = Math.floor((TEST_H - 34)/CELLSIZE) - 1;
     }
 
     // For live match
@@ -305,7 +303,7 @@
     }
 
     function setup() {
-        var CANVAS = createCanvas(WIDTH, HEIGHT);
+        var CANVAS = createCanvas(WIDTH, CELLSIZE*col + 1);
         CANVAS.parent('board');
         for (var i = 0; i < row; i++) {
             maze[i] = [];
