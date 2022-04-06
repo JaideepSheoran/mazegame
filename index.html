@@ -23,13 +23,6 @@
             background-color: black;
         }
 
-        .jockey {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-        }
-
         .logo {
             padding: 0px 15px;
         }
@@ -150,12 +143,6 @@
             <img class="logo_img" height="60px" src="https://upload.wikimedia.org/wikipedia/en/0/0c/Xcode_icon.png"
                 alt="XCode" />
         </div>
-        <div class="jockey">
-            <button onclick="leftMove()" id="left">&larr;</button>
-            <button onclick="rightMove()" id="right">&rarr;</button>
-            <button onclick="upMove()" id="up">&uarr;</button>
-            <button onclick="downMove()" id="down">&darr;</button>
-        </div>
         <div class="game_controls">
             <button onclick="solveMaze()">Solution</button>
             <button onclick="createMaze()">Reset</button>
@@ -179,11 +166,8 @@
 
     var WINDIV = document.getElementById("win_container");
     var WINDIVSETTER = document.getElementById("win_setter");
-    var LEFT_MOVE = document.getElementById('left');
-    var RIGHT_MOVE = document.getElementById('right');
-    var UP_MOVE = document.getElementById('up');
-    var DOWN_MOVE = document.getElementById('down');
-    
+
+
     WINDIVSETTER.addEventListener('click', () => {
         let dispStyle = getComputedStyle(WINDIV).display;
         if (dispStyle === 'flex') {
@@ -192,6 +176,63 @@
             console.log(WINDIV.style.display);
         }
     });
+
+
+    // UP DOWN DETECTION
+
+    document.getElementById("board").addEventListener("touchstart", startTouch, false);
+    document.getElementById("board").addEventListener("touchmove", moveTouch, false);
+
+    // Swipe Up / Down / Left / Right
+    var initialX = null;
+    var initialY = null;
+
+    function startTouch(e) {
+        initialX = e.touches[0].clientX;
+        initialY = e.touches[0].clientY;
+    };
+
+    function moveTouch(e) {
+        e.preventDefault();
+        if (initialX === null) {
+            return;
+        }
+
+        if (initialY === null) {
+            return;
+        }
+
+        var currentX = e.touches[0].clientX;
+        var currentY = e.touches[0].clientY;
+
+        var diffX = initialX - currentX;
+        var diffY = initialY - currentY;
+
+        if (Math.abs(diffX) > Math.abs(diffY)) {
+            // sliding horizontally
+            if (diffX > 0) {
+                // swiped left
+                leftMove();
+            } else {
+                // swiped right
+                rightMove();
+            }
+        } else {
+            // sliding vertically
+            if (diffY > 0) {
+                // swiped up
+                upMove();
+            } else {
+                // swiped down
+                downMove();
+            }
+        }
+
+        initialX = null;
+        initialY = null;
+    };
+
+
 
 
     // PHONE HEIGHT SETTING
@@ -529,7 +570,7 @@
         return null;
     }
 
-    function leftMove(){
+    function leftMove() {
         if (curr.i - 1 >= 0 && !curr.walls[3] && !maze[curr.i - 1][curr.j].visited) {
             let n = maze[curr.i - 1][curr.j];
             if (n != null) {
@@ -541,7 +582,7 @@
         }
     }
 
-    function rightMove(){
+    function rightMove() {
         if (curr.i + 1 < row && !curr.walls[1] && !maze[curr.i + 1][curr.j].visited) {
             let n = maze[curr.i + 1][curr.j];
             if (n != null) {
@@ -552,7 +593,7 @@
             checkStuff();
         }
     }
-    function upMove(){
+    function upMove() {
         if (curr.j - 1 >= 0 && !curr.walls[0] && !maze[curr.i][curr.j - 1].visited) {
             let n = maze[curr.i][curr.j - 1];
             if (n != null) {
@@ -563,7 +604,7 @@
             checkStuff();
         }
     }
-    function downMove(){
+    function downMove() {
         if (curr.j + 1 < col && !curr.walls[2] && !maze[curr.i][curr.j + 1].visited) {
             let n = maze[curr.i][curr.j + 1];
             if (n != null) {
